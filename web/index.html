@@ -100,5 +100,27 @@
       loadMainDartJs();
     }
   </script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
+<script>
+//Replace with your config data
+const firebaseConfig = {
+apiKey: "AIzaSyAKfL6zw0RZGDpTmqAv5CCaaxP0t_Ck0cw",
+authDomain: "observer-project.firebaseapp.com",
+projectId: "observer-project",
+storageBucket: "observer-project.appspot.com",
+messagingSenderId: "198054090320",
+appId: "1:198054090320:web:71cf87d612e54e0e6c6355",
+measurementId: "G-N31ZWP3KE3"
+};
+
+  
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+</script>
+
 </body>
 </html>
