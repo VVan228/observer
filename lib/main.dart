@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:observer/views/landing.dart';
+import 'package:observer/landing.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

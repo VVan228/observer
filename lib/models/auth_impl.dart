@@ -50,4 +50,11 @@ class AuthImpl implements AuthModel {
   bool isLogged() {
     return _auth.currentUser != null;
   }
+
+  @override
+  void setStateListener(Function(User?) f) {
+    _auth.authStateChanges().listen((event) {
+      f(event);
+    });
+  }
 }

@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:observer/main.dart';
 import 'package:observer/models/Interfaces/auth_model.dart';
 import 'package:observer/models/auth_impl.dart';
+import 'package:observer/presenters/interfaces/sign_in_presenter.dart';
+import 'package:observer/presenters/sign_in_impl.dart';
 
 import 'home.dart';
+import 'interfaces/sign_in_view.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+  SignInPage({Key? key}) : super(key: key);
+
+  SignInPresenter presenter = SignInImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +25,9 @@ class SignInPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(child: SignInForm()),
+                Card(child: SignInForm(presenter)),
                 Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                     )),
@@ -36,11 +41,14 @@ class SignInPage extends StatelessWidget {
 }
 
 class SignInForm extends StatefulWidget {
+  SignInPresenter presenter;
+  SignInForm(this.presenter);
+
   @override
   _SignInFormState createState() => _SignInFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _SignInFormState extends State<SignInForm> implements SignInView {
   AuthModel auth = AuthImpl();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -54,6 +62,12 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    widget.presenter.setView(this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       child: Column(
@@ -63,8 +77,10 @@ class _SignInFormState extends State<SignInForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  widget.presenter.backClick();
+                },
               ),
               Text('Sign in', style: Theme.of(context).textTheme.headline4),
               const SizedBox(
@@ -101,18 +117,34 @@ class _SignInFormState extends State<SignInForm> {
                 }),
               ),
               onPressed: () {
-                debugPrint("pressed");
-                auth
-                    .signUp(_emailController.text, _passwordController.text)
-                    .then((value) => value == ""
-                        ? _changeMsg("success")
-                        : _changeMsg(value));
+                widget.presenter.submitClick(
+                    _emailController.text, _passwordController.text);
               },
-              child: Text('Sign up'),
+              child: const Text('Sign in'),
             ),
           )
         ],
       ),
     );
+  }
+
+  @override
+  void showMassage(String msg) {
+    _changeMsg(msg);
+  }
+
+  @override
+  void backToSignUp() {
+    Navigator.pop(context);
+  }
+
+  @override
+  void openHomePage() {
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const HomePage(title: "title")));
   }
 }

@@ -4,7 +4,7 @@ import 'package:observer/models/auth_impl.dart';
 import 'package:observer/views/sign_in.dart';
 import 'package:observer/views/sign_up.dart';
 
-import 'home.dart';
+import 'views/home.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);

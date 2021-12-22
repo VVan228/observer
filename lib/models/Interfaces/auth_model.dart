@@ -16,4 +16,6 @@ abstract class AuthModel {
   bool isLogged() {
     return false;
   }
+
+  void setStateListener(Function(User?) f) {}
 }

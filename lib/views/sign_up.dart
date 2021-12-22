@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:observer/main.dart';
 import 'package:observer/models/Interfaces/auth_model.dart';
 import 'package:observer/models/auth_impl.dart';
+import 'package:observer/presenters/interfaces/sign_up_presenter.dart';
+import 'package:observer/presenters/sign_up_impl.dart';
+import 'package:observer/views/interfaces/sign_up_view.dart';
+import 'package:observer/views/sign_in.dart';
 
 import 'home.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
+
+  SignUpPresenter presenter = SignUpImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +26,17 @@ class SignUpPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(child: SignUpForm()),
+                Card(child: SignUpForm(presenter)),
                 Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Если вы уже зарегестрированы, то "),
+                        Text("Уже зарегестрированы?"),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            presenter.signInClick();
+                          },
                           child: Text("Войти"),
                         )
                       ],
@@ -43,11 +51,15 @@ class SignUpPage extends StatelessWidget {
 }
 
 class SignUpForm extends StatefulWidget {
+  SignUpPresenter presenter;
+
+  SignUpForm(this.presenter);
+
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignUpFormState extends State<SignUpForm> implements SignUpView {
   AuthModel auth = AuthImpl();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -59,6 +71,12 @@ class _SignUpFormState extends State<SignUpForm> {
     setState(() {
       _msg = m;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.presenter.setView(this);
   }
 
   @override
@@ -104,18 +122,36 @@ class _SignUpFormState extends State<SignUpForm> {
                 }),
               ),
               onPressed: () {
-                debugPrint("pressed");
-                auth
-                    .signUp(_emailController.text, _passwordController.text)
-                    .then((value) => value == ""
-                        ? _changeMsg("success")
-                        : _changeMsg(value));
+                widget.presenter.submitClick(_emailController.text,
+                    _passwordController.text, _passwordSubmitController.text);
               },
-              child: Text('Sign up'),
+              child: const Text('Sign up'),
             ),
           )
         ],
       ),
     );
+  }
+
+  @override
+  void openSignIn() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignInPage()),
+    );
+  }
+
+  @override
+  void showMassage(String msg) {
+    _changeMsg(msg);
+  }
+
+  @override
+  void openHomePage() {
+    Navigator.pop(context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const HomePage(title: "title")));
   }
 }
