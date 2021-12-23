@@ -18,4 +18,8 @@ abstract class AuthModel {
   }
 
   void setStateListener(Function(User?) f) {}
+
+  String? getUid() {
+    throw UnimplementedError();
+  }
 }

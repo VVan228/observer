@@ -57,4 +57,9 @@ class AuthImpl implements AuthModel {
       f(event);
     });
   }
+
+  @override
+  String? getUid() {
+    return _auth.currentUser?.uid;
+  }
 }

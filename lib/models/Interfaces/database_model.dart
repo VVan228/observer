@@ -9,12 +9,14 @@ abstract class DatabaseModel {
   void addTestToAdmin(String human, TestStatus testStatus) {}
   void addAnswerToTest(String test, Result result) {}
   Test getTest() {
-    return Test(
-        maxRating: 0,
-        status: 0,
-        limitation: 0,
-        start: 0,
-        questions: [],
-        humans: []);
+    throw UnimplementedError();
   }
+
+  Future<List<TestStatus>> getAdminTests(String human) {
+    throw UnimplementedError();
+  }
+
+  String? addEmptyTest(String name) {}
+  void removeTest(String test) {}
+  void removeTestStatus(String human, String test) {}
 }

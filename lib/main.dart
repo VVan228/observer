@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:observer/landing.dart';
+import 'package:observer/views/sign_up_page.dart';
+import 'package:observer/views/tests_status_page.dart';
+
+import 'models/Interfaces/auth_model.dart';
+import 'models/auth_impl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +16,6 @@ class MyApp extends StatelessWidget {
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
-  // This widget is the root of your applicationß
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,7 +31,10 @@ class MyApp extends StatelessWidget {
             debugPrint('error');
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return const LandingPage();
+            AuthModel auth = AuthImpl();
+            bool isLogged = auth.isLogged();
+
+            return isLogged ? TestsStatusPage() : SignUpPage();
           }
           return const CircularProgressIndicator();
         },

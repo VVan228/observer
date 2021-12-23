@@ -46,13 +46,52 @@ class DatabaseImpl implements DatabaseModel {
 
   @override
   void addTestToAdmin(String human, TestStatus testStatus) {
-    DatabaseReference ref = _adminsRef().child(human);
-    ref.push().set(testStatus);
+    DatabaseReference ref = _adminsRef().child(human).child(testStatus.test);
+    ref.set(testStatus.toMap());
   }
 
   @override
   Test getTest() {
     // TODO: implement getTest
     throw UnimplementedError();
+  }
+
+  @override
+  String? addEmptyTest(String name) {
+    DatabaseReference ref = _testsRef();
+    ref = ref.push();
+    ref.set(Test(
+        name: name,
+        maxRating: 0,
+        status: 0,
+        limitation: 0,
+        start: 0,
+        questions: [],
+        humans: []).toMap());
+    return ref.key;
+  }
+
+  @override
+  void removeTest(String test) {
+    DatabaseReference ref = _testsRef().child(test);
+    ref.remove();
+  }
+
+  @override
+  void removeTestStatus(String human, String test) async {
+    DatabaseReference ref = _adminsRef().child(human).child(test);
+    ref.remove();
+  }
+
+  @override
+  Future<List<TestStatus>> getAdminTests(String human) async {
+    List<TestStatus> res = [];
+    DatabaseReference ref = _adminsRef().child(human);
+    DataSnapshot snap = await ref.get();
+    for (DataSnapshot element in snap.children) {
+      Map<String, dynamic> status = element.value as Map<String, dynamic>;
+      res.add(TestStatus.fromMap(status));
+    }
+    return res;
   }
 }
