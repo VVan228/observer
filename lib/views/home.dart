@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:observer/models/Interfaces/auth_model.dart';
+import 'package:observer/models/Interfaces/database_model.dart';
 import 'package:observer/models/auth_impl.dart';
+import 'package:observer/models/database_impl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -13,12 +15,10 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   AuthModel auth = AuthImpl();
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -41,18 +41,15 @@ class _MyHomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
-              '$_counter',
+              'список тестов пуст',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: null,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),

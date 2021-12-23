@@ -152,6 +152,6 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const HomePage(title: "title")));
+            builder: (context) => const HomePage(title: "ТЕСТЫ")));
   }
 }

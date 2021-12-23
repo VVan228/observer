@@ -145,6 +145,6 @@ class _SignInFormState extends State<SignInForm> implements SignInView {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const HomePage(title: "title")));
+            builder: (context) => const HomePage(title: "ТЕСТЫ")));
   }
 }
