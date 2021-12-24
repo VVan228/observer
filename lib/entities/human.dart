@@ -1,32 +1,28 @@
 import 'dart:convert';
 
 class Human {
-  String name;
-  String surname;
-  String email;
   bool isAdmin;
+  String email;
+  String uid;
   Human({
-    required this.name,
-    required this.surname,
-    required this.email,
     required this.isAdmin,
+    required this.email,
+    required this.uid,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
-      'surname': surname,
-      'email': email,
       'isAdmin': isAdmin,
+      'email': email,
+      'uid': uid,
     };
   }
 
   factory Human.fromMap(Map<String, dynamic> map) {
     return Human(
-      name: map['name'] ?? '',
-      surname: map['surname'] ?? '',
-      email: map['email'] ?? '',
       isAdmin: map['isAdmin'] ?? false,
+      email: map['email'] ?? '',
+      uid: map['uid'] ?? '',
     );
   }
 }

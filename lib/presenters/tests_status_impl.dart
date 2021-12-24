@@ -13,6 +13,10 @@ class TestsStatusImpl implements TestsStatusPresenter {
 
   @override
   void addTestClick(String name) {
+    if (name == "") {
+      _view?.showMassage("пустое имя");
+      return;
+    }
     String? link = _database.addEmptyTest(name);
     if (link == null) {
       _view?.showMassage("unknown error");
@@ -27,17 +31,24 @@ class TestsStatusImpl implements TestsStatusPresenter {
 
   @override
   void logoutClick() {
-    _view?.showMassage("logout click");
+    _auth.signOut();
   }
 
   @override
   void testStatusClick(TestStatus status) {
-    if (status.status == 2) {}
+    if (status.status == 2) {
+      _view?.openCreateTestPage(status);
+    }
   }
 
   @override
   void setView(TestsStatusView view) {
     _view = view;
+    _auth.setStateListener((user) {
+      if (user == null) {
+        _view?.openStartPage();
+      }
+    });
   }
 
   @override

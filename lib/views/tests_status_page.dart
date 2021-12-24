@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:observer/entities/test_status.dart';
 import 'package:observer/presenters/interfaces/tests_status_presenter.dart';
 import 'package:observer/presenters/tests_status_impl.dart';
+import 'package:observer/views/create_test_page.dart';
 import 'package:observer/views/interfaces/tests_status_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:observer/views/sign_up_page.dart';
 
 class TestsStatusPage extends StatefulWidget {
   TestsStatusPage({Key? key}) : super(key: key);
@@ -23,6 +26,10 @@ class _TestsStatusPageState extends State<TestsStatusPage>
     setState(() {
       _data.add(status);
     });
+  }
+
+  void update() {
+    setState(() {});
   }
 
   void removeItem(TestStatus status) {
@@ -47,16 +54,12 @@ class _TestsStatusPageState extends State<TestsStatusPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () {
-                  widget.presenter.logoutClick();
-                },
-              ))
-        ],
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            widget.presenter.logoutClick();
+          },
+        ),
       ),
       body: Center(
         child: _data.isEmpty
@@ -138,7 +141,8 @@ class _TestsStatusPageState extends State<TestsStatusPage>
 
   @override
   void showMassage(String s) {
-    debugPrint(s);
+    Fluttertoast.showToast(
+        msg: s, timeInSecForIosWeb: 2, webBgColor: "#ff9216");
   }
 
   @override
@@ -158,11 +162,11 @@ class _TestsStatusPageState extends State<TestsStatusPage>
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('AlertDialog Title'),
+          title: const Text('Создать тест'),
           content: SingleChildScrollView(
             child: TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(hintText: 'submit password'),
+              decoration: InputDecoration(hintText: 'имя'),
             ),
           ),
           actions: <Widget>[
@@ -177,7 +181,7 @@ class _TestsStatusPageState extends State<TestsStatusPage>
                   return Theme.of(context).colorScheme.secondary;
                 }),
               ),
-              child: const Text('Approve'),
+              child: const Text('ок'),
               onPressed: () {
                 // debugPrint(_nameController.text + " alert");
                 Navigator.pop(context, _nameController.text);
@@ -190,39 +194,22 @@ class _TestsStatusPageState extends State<TestsStatusPage>
     return res;
   }
 
-  Future _asyncInputDialog(BuildContext context) async {
-    String teamName = '';
-    return showDialog(
-      context: context,
-      barrierDismissible:
-          false, // dialog is dismissible with a tap on the barrier
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Enter current team'),
-          content: new Row(
-            children: [
-              new Expanded(
-                  child: new TextField(
-                autofocus: true,
-                decoration: new InputDecoration(
-                    labelText: 'Team Name', hintText: 'eg. Juventus F.C.'),
-                onChanged: (value) {
-                  teamName = value;
-                },
-              ))
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop(teamName);
-              },
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void openCreateTestPage(TestStatus test) {
+    Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CreateTestPage(test: test)))
+        .then((value) {
+      if (value != null && value) {
+        update();
+      }
+    });
+  }
+
+  @override
+  void openStartPage() {
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SignUpPage()));
   }
 }
 

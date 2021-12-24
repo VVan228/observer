@@ -22,4 +22,8 @@ abstract class AuthModel {
   String? getUid() {
     throw UnimplementedError();
   }
+
+  String? getEmail() {
+    throw UnimplementedError();
+  }
 }

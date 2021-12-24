@@ -4,6 +4,7 @@ import 'package:observer/models/Interfaces/auth_model.dart';
 import 'package:observer/models/auth_impl.dart';
 import 'package:observer/presenters/interfaces/sign_in_presenter.dart';
 import 'package:observer/presenters/sign_in_impl.dart';
+import 'package:observer/views/test_search_page.dart';
 
 import 'tests_status_page.dart';
 import 'interfaces/sign_in_view.dart';
@@ -98,6 +99,7 @@ class _SignInFormState extends State<SignInForm> implements SignInView {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              obscureText: true,
               controller: _passwordController,
               decoration: InputDecoration(hintText: 'password'),
             ),
@@ -139,10 +141,18 @@ class _SignInFormState extends State<SignInForm> implements SignInView {
   }
 
   @override
-  void openHomePage() {
+  void openTestStatusPage() {
     Navigator.pop(context);
     Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TestsStatusPage()));
+  }
+
+  @override
+  void openTestSearchPage() {
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TestSearchPage()));
   }
 }

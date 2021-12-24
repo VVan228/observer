@@ -1,5 +1,6 @@
 abstract class SignInView {
   void backToSignUp() {}
-  void openHomePage() {}
+  void openTestStatusPage() {}
   void showMassage(String msg) {}
+  void openTestSearchPage() {}
 }

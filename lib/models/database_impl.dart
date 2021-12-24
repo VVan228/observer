@@ -27,21 +27,21 @@ class DatabaseImpl implements DatabaseModel {
   }
 
   @override
-  void addTest(Test test) {
-    DatabaseReference ref = _testsRef();
-    ref.push().set(test.toMap());
+  void updateTest(String link, Test test) {
+    DatabaseReference ref = _testsRef().child(link);
+    ref.set(test.toMap());
   }
 
   @override
   void addAnswerToTest(String test, Result result) {
-    DatabaseReference ref = _answersRef().child(test);
-    ref.push().set(result.toMap());
+    DatabaseReference ref = _answersRef().child(test).child(result.human);
+    ref.set(result.toMap());
   }
 
   @override
   void addHuman(Human human) {
-    DatabaseReference ref = _humansRef();
-    ref.push().set(human.toMap());
+    DatabaseReference ref = _humansRef().child(human.uid);
+    ref.set(human.toMap());
   }
 
   @override
@@ -51,9 +51,14 @@ class DatabaseImpl implements DatabaseModel {
   }
 
   @override
-  Test getTest() {
-    // TODO: implement getTest
-    throw UnimplementedError();
+  Future<Test?> getTest(String test) async {
+    DatabaseReference ref = _testsRef().child(test);
+    DataSnapshot snap = await ref.get();
+    if (snap.value == null) {
+      return null;
+    }
+    Map<String, dynamic> res = snap.value as Map<String, dynamic>;
+    return Test.fromMap(res);
   }
 
   @override
@@ -93,5 +98,27 @@ class DatabaseImpl implements DatabaseModel {
       res.add(TestStatus.fromMap(status));
     }
     return res;
+  }
+
+  @override
+  void updateTestStatus(String human, TestStatus testStatus) {
+    DatabaseReference ref = _adminsRef().child(human).child(testStatus.test);
+    ref.set(testStatus.toMap());
+  }
+
+  @override
+  Future<bool> isAdmin(String human) async {
+    DatabaseReference ref = _humansRef().child(human);
+    DataSnapshot snap = await ref.get();
+    Map<String, dynamic> res = snap.value as Map<String, dynamic>;
+    return Human.fromMap(res).isAdmin;
+  }
+
+  @override
+  Future<bool> hasAnsweredTest(String human, String test) async {
+    DatabaseReference ref = _answersRef().child(test).child(human);
+    DataSnapshot snap = await ref.get();
+
+    return snap.value != null;
   }
 }

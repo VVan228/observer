@@ -6,6 +6,7 @@ import 'package:observer/presenters/interfaces/sign_up_presenter.dart';
 import 'package:observer/presenters/sign_up_impl.dart';
 import 'package:observer/views/interfaces/sign_up_view.dart';
 import 'package:observer/views/sign_in_page.dart';
+import 'package:observer/views/test_search_page.dart';
 
 import 'tests_status_page.dart';
 
@@ -65,6 +66,8 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
   final _passwordController = TextEditingController();
   final _passwordSubmitController = TextEditingController();
 
+  bool isAdmin = false;
+
   String _msg = "";
 
   void _changeMsg(String m) {
@@ -96,6 +99,7 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              obscureText: true,
               controller: _passwordController,
               decoration: InputDecoration(hintText: 'password'),
             ),
@@ -103,11 +107,30 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
           Padding(
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
+              obscureText: true,
               controller: _passwordSubmitController,
               decoration: InputDecoration(hintText: 'submit password'),
             ),
           ),
-          Padding(padding: EdgeInsets.all(8.0), child: Text(_msg)),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text("буду админом"),
+                Checkbox(
+                    value: isAdmin,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          isAdmin = value;
+                        });
+                      }
+                    }),
+              ],
+            ),
+          ),
+          Padding(padding: const EdgeInsets.all(8.0), child: Text(_msg)),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: TextButton(
@@ -122,8 +145,11 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
                 }),
               ),
               onPressed: () {
-                widget.presenter.submitClick(_emailController.text,
-                    _passwordController.text, _passwordSubmitController.text);
+                widget.presenter.submitClick(
+                    _emailController.text,
+                    _passwordController.text,
+                    _passwordSubmitController.text,
+                    isAdmin);
               },
               child: const Text('Sign up'),
             ),
@@ -147,9 +173,16 @@ class _SignUpFormState extends State<SignUpForm> implements SignUpView {
   }
 
   @override
-  void openHomePage() {
+  void openTestStatusPage() {
     Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TestsStatusPage()));
+  }
+
+  @override
+  void openTestSearchPage() {
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TestSearchPage()));
   }
 }

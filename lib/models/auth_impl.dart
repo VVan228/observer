@@ -53,13 +53,18 @@ class AuthImpl implements AuthModel {
 
   @override
   void setStateListener(Function(User?) f) {
-    _auth.authStateChanges().listen((event) {
-      f(event);
+    _auth.authStateChanges().listen((User? user) {
+      f(user);
     });
   }
 
   @override
   String? getUid() {
     return _auth.currentUser?.uid;
+  }
+
+  @override
+  String? getEmail() {
+    return _auth.currentUser?.email;
   }
 }

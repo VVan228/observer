@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:observer/models/Interfaces/database_model.dart';
+import 'package:observer/models/database_impl.dart';
 import 'package:observer/views/sign_up_page.dart';
+import 'package:observer/views/test_search_page.dart';
 import 'package:observer/views/tests_status_page.dart';
 
 import 'models/Interfaces/auth_model.dart';
@@ -32,9 +35,16 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             AuthModel auth = AuthImpl();
+            DatabaseModel data = DatabaseImpl();
             bool isLogged = auth.isLogged();
 
-            return isLogged ? TestsStatusPage() : SignUpPage();
+            if (isLogged) {
+              String? uid = auth.getUid();
+              //bool isAdmin = await data.isAdmin(uid??"");
+              return TestSearchPage();
+            } else {
+              return SignUpPage();
+            }
           }
           return const CircularProgressIndicator();
         },
