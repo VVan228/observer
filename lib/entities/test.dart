@@ -43,7 +43,7 @@ class Test {
       start: map['start']?.toInt() ?? 0,
       questions: List<Question>.from(
           map['questions']?.map((x) => Question.fromMap(x))),
-      humans: List<String>.from(map['humans']),
+      humans: List<String>.from(map['humans'] ?? []),
     );
   }
 }

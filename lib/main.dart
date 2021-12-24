@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             if (isLogged) {
               String? uid = auth.getUid();
               //bool isAdmin = await data.isAdmin(uid??"");
-              return TestSearchPage();
+              return TestsStatusPage();
             } else {
               return SignUpPage();
             }
