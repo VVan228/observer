@@ -28,4 +28,8 @@ abstract class DatabaseModel {
   Future<bool> hasAnsweredTest(String human, String test) {
     throw UnimplementedError();
   }
+
+  Future<List<Result?>> getResultsFromTest(String test) {
+    throw UnimplementedError();
+  }
 }

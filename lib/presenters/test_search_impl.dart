@@ -30,6 +30,7 @@ class TestSearchImpl implements TestSearchPresenter {
       return;
     }
     String? uid = _auth.getUid();
+    String? email = _auth.getEmail();
 
     bool hasAnswered = await _database.hasAnsweredTest(uid ?? "", _link ?? "");
     if (hasAnswered) {
@@ -38,8 +39,10 @@ class TestSearchImpl implements TestSearchPresenter {
     }
 
     Map<String, double> rating = {};
+    Map<String, double> maxRating = {};
+    double sumRating = 0;
+    double sumMaxRating = 0;
     double totalScore = 0;
-    Result res = Result(human: uid ?? "", rating: rating);
     for (Question q in questions!) {
       int total = q.right.length;
       int cur = 0;
@@ -51,7 +54,17 @@ class TestSearchImpl implements TestSearchPresenter {
       double score = cur / total;
       totalScore += score;
       rating[q.question] = score * q.factor;
+      maxRating[q.question] = q.type * q.factor;
+      sumRating += score * q.factor;
+      sumMaxRating += q.type * q.factor;
     }
+    Result res = Result(
+        sumMaxRating: sumMaxRating,
+        sumRating: sumRating,
+        email: email ?? "",
+        human: uid ?? "",
+        rating: rating,
+        maxRating: maxRating);
 
     _database.addAnswerToTest(_link ?? "", res);
     _view?.showImportantMassage(totalScore.toString() +

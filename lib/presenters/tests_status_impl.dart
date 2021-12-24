@@ -38,6 +38,8 @@ class TestsStatusImpl implements TestsStatusPresenter {
   void testStatusClick(TestStatus status) {
     if (status.status == 2) {
       _view?.openCreateTestPage(status);
+    } else if (status.status == 1) {
+      _view?.openStatisticsPage(status);
     }
   }
 

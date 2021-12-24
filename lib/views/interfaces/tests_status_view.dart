@@ -6,4 +6,5 @@ abstract class TestsStatusView {
   void removeTestStatus(TestStatus status) {}
   void openCreateTestPage(TestStatus test) {}
   void openStartPage() {}
+  void openStatisticsPage(TestStatus status) {}
 }

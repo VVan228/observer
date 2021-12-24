@@ -6,6 +6,7 @@ import 'package:observer/views/create_test_page.dart';
 import 'package:observer/views/interfaces/tests_status_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:observer/views/sign_up_page.dart';
+import 'package:observer/views/statistics_page.dart';
 
 class TestsStatusPage extends StatefulWidget {
   TestsStatusPage({Key? key}) : super(key: key);
@@ -210,6 +211,16 @@ class _TestsStatusPageState extends State<TestsStatusPage>
     Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => SignUpPage()));
+  }
+
+  @override
+  void openStatisticsPage(TestStatus status) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StatisticsPage(
+                  test: status,
+                )));
   }
 }
 

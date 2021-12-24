@@ -121,4 +121,19 @@ class DatabaseImpl implements DatabaseModel {
 
     return snap.value != null;
   }
+
+  @override
+  Future<List<Result?>> getResultsFromTest(String test) async {
+    List<Result?> res = [];
+    DatabaseReference ref = _answersRef().child(test);
+    DataSnapshot snap = await ref.get();
+    if (snap.value == null) {
+      return [];
+    }
+    for (var s in snap.children) {
+      Map<String, dynamic> map = s.value as Map<String, dynamic>;
+      res.add(Result.fromMap(map));
+    }
+    return res;
+  }
 }
