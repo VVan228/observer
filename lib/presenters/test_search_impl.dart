@@ -98,6 +98,8 @@ class TestSearchImpl implements TestSearchPresenter {
     _test = test;
     _link = q;
 
+    _view?.clearQuestions();
+
     questions = test.questions;
     for (Question q in test.questions) {
       List<String> answ = [];

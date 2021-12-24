@@ -7,4 +7,5 @@ abstract class TestSearchView {
   }
 
   void openStartPage() {}
+  void clearQuestions() {}
 }

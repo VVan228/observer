@@ -242,4 +242,13 @@ class _AdapterState extends State<Adapter> implements TestSearchView {
       },
     );
   }
+
+  @override
+  void clearQuestions() {
+    setState(() {
+      widget.questions.clear();
+      widget.answers.clear();
+      widget.selected.clear();
+    });
+  }
 }
