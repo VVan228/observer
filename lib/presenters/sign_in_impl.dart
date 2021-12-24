@@ -4,6 +4,7 @@ import 'package:observer/models/auth_impl.dart';
 import 'package:observer/models/database_impl.dart';
 import 'package:observer/presenters/interfaces/sign_in_presenter.dart';
 import 'package:observer/views/interfaces/sign_in_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInImpl implements SignInPresenter {
   final AuthModel _authModel = AuthImpl();
@@ -22,6 +23,9 @@ class SignInImpl implements SignInPresenter {
       String? uid = _authModel.getUid();
 
       bool isAdmin = await _databaseModel.isAdmin(uid ?? "");
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool("isAdmin", isAdmin);
 
       if (isAdmin) {
         _view?.openTestStatusPage();

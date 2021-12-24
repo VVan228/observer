@@ -46,7 +46,6 @@ class SignUpImpl implements SignUpPresenter {
 
       _database.addHuman(Human(email: email, isAdmin: isAdmin, uid: uid ?? ""));
 
-      //TODO: realisation
       if (isAdmin) {
         _view?.openTestStatusPage();
       } else {
