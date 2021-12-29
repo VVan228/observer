@@ -32,3 +32,18 @@
 3. Добавление участников теста
 4. Просмотр статистики теста
 5. Добавление ответа на тест
+
+## Скриншоты
+
+### Страница регистрации
+![sign up page](https://github.com/VVan228/observer/blob/main/readme_data/sign_up.png)
+### Страница статусов тестов
+![test status page](https://github.com/VVan228/observer/blob/main/readme_data/test_status.png)
+### Страница создания тестов
+![create test page](https://github.com/VVan228/observer/blob/main/readme_data/create_test.png)
+### Страница добавления пользователей
+![add humans page](https://github.com/VVan228/observer/blob/main/readme_data/add_humans.png)
+### Страница просмотра статистики
+![statistics page](https://github.com/VVan228/observer/blob/main/readme_data/statistics.png)
+### Страница формирования ответа на тест
+![test solve page](https://github.com/VVan228/observer/blob/main/readme_data/test_solve.png)
