@@ -49,4 +49,4 @@
 ![test solve page](https://github.com/VVan228/observer/blob/main/readme_data/test_solve.png)
 
 ## Демонстрация
-Вы также можете посмотреть демонтсрацию работы приложения по [ссылке](https://raw.githubusercontent.com/VVan228/observer/main/readme_data/demonstration.mp4)
+Вы также можете посмотреть демонстрацию работы приложения по [ссылке](https://raw.githubusercontent.com/VVan228/observer/main/readme_data/demonstration.mp4)
